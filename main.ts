@@ -53,6 +53,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
 let Enemy_Car_2: Sprite = null
 let Police_Enemy: Sprite = null
 let Red_Car_Enemy: Sprite = null
+let mySprite2: Sprite = null
 let Fire_Projectile: Sprite = null
 let Laser_Projectile: Sprite = null
 let mySprite: Sprite = null
@@ -231,6 +232,26 @@ let Coin_Sprite = sprites.create(img`
     . . f f f f . . 
     `, SpriteKind.Food)
 Coin_Sprite.setPosition(30, 85)
+game.onUpdate(function () {
+    mySprite2 = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Player)
+})
 game.onUpdateInterval(2000, function () {
     Red_Car_Enemy = sprites.create(img`
         . . . . e e e e e . . . . . . . 
