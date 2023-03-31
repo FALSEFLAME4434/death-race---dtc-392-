@@ -17,7 +17,6 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         `, mySprite, -150, 0)
-    music.play(music.melodyPlayable(music.zapped), music.PlaybackMode.UntilDone)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     Fire_Projectile = sprites.createProjectileFromSprite(img`
@@ -38,27 +37,22 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         `, mySprite, -150, 0)
-    music.play(music.melodyPlayable(music.pewPew), music.PlaybackMode.UntilDone)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     sprites.destroy(otherSprite)
     info.changeScoreBy(10)
-    music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.UntilDone)
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroy(otherSprite)
-    music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
     info.changeScoreBy(100)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroy(otherSprite)
     info.changeLifeBy(-1)
-    music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.UntilDone)
 })
 let Enemy_Car_2: Sprite = null
 let Police_Enemy: Sprite = null
 let Red_Car_Enemy: Sprite = null
-let mySprite2: Sprite = null
 let Fire_Projectile: Sprite = null
 let Laser_Projectile: Sprite = null
 let mySprite: Sprite = null
@@ -237,26 +231,6 @@ let Coin_Sprite = sprites.create(img`
     . . f f f f . . 
     `, SpriteKind.Food)
 Coin_Sprite.setPosition(30, 85)
-game.onUpdate(function () {
-    mySprite2 = sprites.create(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, SpriteKind.Player)
-})
 game.onUpdateInterval(2000, function () {
     Red_Car_Enemy = sprites.create(img`
         . . . . e e e e e . . . . . . . 
