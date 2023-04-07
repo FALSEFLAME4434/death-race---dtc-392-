@@ -1,3 +1,6 @@
+namespace SpriteKind {
+    export const Heart = SpriteKind.create()
+}
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     Laser_Projectile = sprites.createProjectileFromSprite(img`
         . . . . . . . . . . . . . . . . 
@@ -40,20 +43,29 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         `, mySprite, -150, 0)
     music.play(music.melodyPlayable(music.pewPew), music.PlaybackMode.UntilDone)
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite, otherSprite) {
+    sprites.destroy(otherSprite)
+    info.changeLifeBy(1)
+    music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.UntilDone)
+    music.setVolume(100)
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     sprites.destroy(otherSprite)
     info.changeScoreBy(10)
     music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.UntilDone)
+    music.setVolume(100)
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroy(otherSprite)
     info.changeScoreBy(100)
     music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
+    music.setVolume(101)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroy(otherSprite)
     info.changeLifeBy(-1)
     music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.UntilDone)
+    music.setVolume(100)
 })
 let Enemy_Car_2: Sprite = null
 let Police_Enemy: Sprite = null
@@ -223,7 +235,7 @@ let Mighty_Taco_Pickup = sprites.create(img`
     4 5 4 e 5 5 5 5 e e . . . . . . 
     . 4 5 4 5 5 4 e . . . . . . . . 
     . . 4 4 e e e . . . . . . . . . 
-    `, SpriteKind.Food)
+    `, SpriteKind.Heart)
 Mighty_Taco_Pickup.setPosition(35, 35)
 let Coin_Sprite = sprites.create(img`
     . . b b b b . . 
