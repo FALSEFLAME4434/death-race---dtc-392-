@@ -289,6 +289,7 @@ game.onUpdateInterval(2000, function () {
         . f f f f f f f f f f f f f f . 
         . . f f f . . . . f f f . . . . 
         `, SpriteKind.Enemy)
+    Police_Enemy.follow(mySprite)
     Police_Enemy.setPosition(1, 105)
     Police_Enemy.setVelocity(75, 0)
     Enemy_Car_2 = sprites.create(img`
