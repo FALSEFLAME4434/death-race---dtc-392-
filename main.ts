@@ -67,6 +67,8 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.UntilDone)
     music.setVolume(100)
 })
+let Big_Boss: Sprite = null
+let Green_Car_Enemy: Sprite = null
 let Enemy_Car_2: Sprite = null
 let Police_Enemy: Sprite = null
 let Red_Car_Enemy: Sprite = null
@@ -309,4 +311,44 @@ game.onUpdateInterval(2000, function () {
         `, SpriteKind.Enemy)
     Enemy_Car_2.setPosition(1, 30)
     Enemy_Car_2.setVelocity(90, 0)
+    Green_Car_Enemy = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . 5 5 5 5 5 5 5 5 . . . . 
+        . . . 5 d 5 5 5 5 5 5 c 5 . . . 
+        . . 5 c d 5 5 5 5 5 5 c c 5 . . 
+        . 5 c c d d d d d d 5 c c d 5 d 
+        . 5 c 5 7 7 7 7 7 7 7 b c d 5 5 
+        . 5 5 7 b b 7 b b b 7 7 b d 5 5 
+        . 5 7 b b b 7 b b b b 7 5 5 5 5 
+        . 7 7 5 5 5 7 5 5 5 5 5 7 5 5 5 
+        . 7 7 7 7 7 7 f 7 7 7 f 7 5 d d 
+        . 7 7 7 7 7 7 f 7 7 f 7 7 7 5 d 
+        . 7 7 7 7 7 7 f f f 7 7 7 7 7 7 
+        . 7 f f f f 7 7 7 7 f f f 7 7 7 
+        . . f f f f f 7 7 f f f f f 7 . 
+        . . . f f f . . . . f f f f . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Enemy)
+    Green_Car_Enemy.setPosition(1, 45)
+    Green_Car_Enemy.setVelocity(115, 0)
+    Big_Boss = sprites.create(img`
+        . 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 . 5 . 5 5 5 5 5 5 5 5 5 5 
+        5 5 . 5 . 5 . 4 4 4 4 4 . . . . 
+        5 5 5 5 5 4 4 4 e b 9 4 4 . . . 
+        . 5 5 4 4 4 e 4 4 b 9 6 9 4 4 . 
+        . 4 4 e e 4 4 4 e b 9 9 9 6 4 4 
+        4 4 e e 4 4 4 4 e b 9 9 6 6 9 4 
+        4 e e 4 4 4 e 4 4 b 9 6 9 b b b 
+        4 e 4 4 4 4 4 4 e b b b b b 4 e 
+        4 e 4 e e e 4 4 4 b b 4 4 4 4 e 
+        4 4 e 4 4 e e e e 4 4 4 e 4 4 e 
+        e f f f e e 4 4 4 e e f f f e e 
+        . f f f . e e e e e . f f f . . 
+        . f f f . . . . . . . f f f . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Enemy)
+    Big_Boss.setVelocity(150, 0)
+    Big_Boss.setPosition(1, 75)
 })
