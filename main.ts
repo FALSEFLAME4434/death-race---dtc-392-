@@ -1,3 +1,7 @@
+namespace SpriteKind {
+    export const PowerUp = SpriteKind.create()
+    export const Boss = SpriteKind.create()
+}
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     Laser_Projectile = sprites.createProjectileFromSprite(img`
         . . . . . . . . . . . . . . . . 
@@ -20,39 +24,124 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     music.play(music.melodyPlayable(music.zapped), music.PlaybackMode.UntilDone)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    Fire_Projectile = sprites.createProjectileFromSprite(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . 4 . . . . . 
-        . . . . 2 . . . . 4 4 . . . . . 
-        . . . . 2 4 . . 4 5 4 . . . . . 
-        . . . . . 2 4 d 5 5 4 . . . . . 
-        . . . . . 2 5 5 5 5 4 . . . . . 
-        . . . . . . 2 5 5 5 5 4 . . . . 
-        . . . . . . 2 5 4 2 4 4 . . . . 
-        . . . . . . 4 4 . . 2 4 4 . . . 
-        . . . . . 4 4 . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, mySprite, -150, 0)
-    music.play(music.melodyPlayable(music.pewPew), music.PlaybackMode.UntilDone)
+    if (Shotgun_Active) {
+        Fire_Projectile = sprites.createProjectileFromSprite(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . 4 . . . . . 
+            . . . . 2 . . . . 4 4 . . . . . 
+            . . . . 2 4 . . 4 5 4 . . . . . 
+            . . . . . 2 4 d 5 5 4 . . . . . 
+            . . . . . 2 5 5 5 5 4 . . . . . 
+            . . . . . . 2 5 5 5 5 4 . . . . 
+            . . . . . . 2 5 4 2 4 4 . . . . 
+            . . . . . . 4 4 . . 2 4 4 . . . 
+            . . . . . 4 4 . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, mySprite, -150, 0)
+        Fire_Projectile = sprites.createProjectileFromSprite(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . 4 . . . . . 
+            . . . . 2 . . . . 4 4 . . . . . 
+            . . . . 2 4 . . 4 5 4 . . . . . 
+            . . . . . 2 4 d 5 5 4 . . . . . 
+            . . . . . 2 5 5 5 5 4 . . . . . 
+            . . . . . . 2 5 5 5 5 4 . . . . 
+            . . . . . . 2 5 4 2 4 4 . . . . 
+            . . . . . . 4 4 . . 2 4 4 . . . 
+            . . . . . 4 4 . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, mySprite, -150, 55)
+        Fire_Projectile = sprites.createProjectileFromSprite(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . 4 . . . . . 
+            . . . . 2 . . . . 4 4 . . . . . 
+            . . . . 2 4 . . 4 5 4 . . . . . 
+            . . . . . 2 4 d 5 5 4 . . . . . 
+            . . . . . 2 5 5 5 5 4 . . . . . 
+            . . . . . . 2 5 5 5 5 4 . . . . 
+            . . . . . . 2 5 4 2 4 4 . . . . 
+            . . . . . . 4 4 . . 2 4 4 . . . 
+            . . . . . 4 4 . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, mySprite, -150, -55)
+        music.play(music.melodyPlayable(music.pewPew), music.PlaybackMode.UntilDone)
+    } else {
+        Fire_Projectile = sprites.createProjectileFromSprite(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . 4 . . . . . 
+            . . . . 2 . . . . 4 4 . . . . . 
+            . . . . 2 4 . . 4 5 4 . . . . . 
+            . . . . . 2 4 d 5 5 4 . . . . . 
+            . . . . . 2 5 5 5 5 4 . . . . . 
+            . . . . . . 2 5 5 5 5 4 . . . . 
+            . . . . . . 2 5 4 2 4 4 . . . . 
+            . . . . . . 4 4 . . 2 4 4 . . . 
+            . . . . . 4 4 . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, mySprite, -150, 0)
+        music.play(music.melodyPlayable(music.pewPew), music.PlaybackMode.UntilDone)
+    }
+})
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Boss, function (sprite, otherSprite) {
+    sprites.destroy(Fire_Projectile)
+    sprites.destroy(Laser_Projectile)
+    BossHealth = BossHealth - 1
+    if (BossHealth <= 0) {
+        sprites.destroy(otherSprite, effects.fire, 500)
+        info.changeScoreBy(100)
+        music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
+        music.setVolume(100)
+        if (Math.percentChance(20)) {
+            ShotgunPowerUp = sprites.create(assets.image`Split`, SpriteKind.PowerUp)
+            ShotgunPowerUp.setPosition(otherSprite.x, otherSprite.y)
+        }
+    }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.PowerUp, function (sprite, otherSprite) {
+    ShotgunPowerUp.sayText("+50")
+    info.changeScoreBy(50)
+    sprites.destroy(otherSprite)
+    Shotgun_Active = true
+    sprites.destroyAllSpritesOfKind(SpriteKind.PowerUp)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
+    Mighty_Taco_Pickup.sayText("+500")
     sprites.destroy(otherSprite, effects.confetti, 500)
-    info.changeScoreBy(10)
+    info.changeScoreBy(500)
     music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.UntilDone)
     music.setVolume(100)
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
-    sprites.destroy(otherSprite, effects.fire, 500)
     sprites.destroy(Fire_Projectile)
     sprites.destroy(Laser_Projectile)
+    sprites.destroy(otherSprite, effects.fire, 500)
     info.changeScoreBy(100)
     music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
     music.setVolume(100)
+    if (Math.percentChance(5)) {
+        ShotgunPowerUp = sprites.create(assets.image`Split`, SpriteKind.PowerUp)
+        ShotgunPowerUp.setPosition(otherSprite.x, otherSprite.y)
+    }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroy(otherSprite, effects.fire, 500)
@@ -65,8 +154,12 @@ let Green_Car_Enemy: Sprite = null
 let Pink_Car_Enemy: Sprite = null
 let Police_Enemy: Sprite = null
 let Red_Car_Enemy: Sprite = null
+let ShotgunPowerUp: Sprite = null
+let BossHealth = 0
 let Fire_Projectile: Sprite = null
 let Laser_Projectile: Sprite = null
+let Shotgun_Active = false
+let Mighty_Taco_Pickup: Sprite = null
 let mySprite: Sprite = null
 info.setScore(0)
 info.setLife(3)
@@ -88,6 +181,7 @@ mySprite = sprites.create(img`
     . 8 8 f b c c f 8 8 f b c c f . 
     . . . . b b f . . . . b b f . . 
     `, SpriteKind.Player)
+mySprite.setStayInScreen(true)
 mySprite.setPosition(125, 60)
 scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -213,7 +307,7 @@ scene.setBackgroundImage(img`
     `)
 game.splash("Death Race", "Are you ready to die?")
 controller.moveSprite(mySprite, 60, 60)
-let Mighty_Taco_Pickup = sprites.create(img`
+Mighty_Taco_Pickup = sprites.create(img`
     . . . . . . . e e e e . . . . . 
     . . . . . e e 4 5 5 5 e e . . . 
     . . . . e 4 5 6 2 2 7 6 6 e . . 
@@ -243,6 +337,7 @@ let Coin_Sprite = sprites.create(img`
     . . f f f f . . 
     `, SpriteKind.Food)
 Coin_Sprite.setPosition(30, 85)
+Shotgun_Active = false
 game.onUpdateInterval(2000, function () {
     Red_Car_Enemy = sprites.create(img`
         . . . . e e e e e . . . . . . . 
@@ -303,6 +398,7 @@ game.onUpdateInterval(2000, function () {
         . . . f f f . . . . f f f f . . 
         . . . . . . . . . . . . . . . . 
         `, SpriteKind.Enemy)
+    Pink_Car_Enemy.follow(mySprite)
     Pink_Car_Enemy.setPosition(1, 30)
     Pink_Car_Enemy.setVelocity(90, 0)
     Green_Car_Enemy = sprites.create(img`
@@ -325,6 +421,11 @@ game.onUpdateInterval(2000, function () {
         `, SpriteKind.Enemy)
     Green_Car_Enemy.setPosition(1, 45)
     Green_Car_Enemy.setVelocity(115, 0)
+})
+game.onUpdateInterval(6000, function () {
+    Shotgun_Active = false
+})
+game.onUpdateInterval(8000, function () {
     Big_Boss = sprites.create(img`
         ........................
         ........................
@@ -350,7 +451,9 @@ game.onUpdateInterval(2000, function () {
         ...cccbbbbdd55ccdddbc...
         ......cccbdddbccccccc...
         ........cdd555dc........
-        `, SpriteKind.Enemy)
+        `, SpriteKind.Boss)
+    BossHealth = 6
+    Big_Boss.follow(mySprite)
     Big_Boss.setPosition(1, 75)
-    Big_Boss.setVelocity(150, 0)
+    Big_Boss.setVelocity(100, 0)
 })
