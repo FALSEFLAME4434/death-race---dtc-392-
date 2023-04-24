@@ -41,21 +41,28 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     music.play(music.melodyPlayable(music.pewPew), music.PlaybackMode.UntilDone)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
-    sprites.destroy(otherSprite)
+    sprites.destroy(otherSprite, effects.confetti, 500)
     info.changeScoreBy(10)
     music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.UntilDone)
+    music.setVolume(100)
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
-    sprites.destroy(otherSprite)
+    sprites.destroy(otherSprite, effects.fire, 500)
+    sprites.destroy(Fire_Projectile)
+    sprites.destroy(Laser_Projectile)
     info.changeScoreBy(100)
     music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
+    music.setVolume(100)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    sprites.destroy(otherSprite)
+    sprites.destroy(otherSprite, effects.fire, 500)
     info.changeLifeBy(-1)
     music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.UntilDone)
+    music.setVolume(100)
 })
-let Enemy_Car_2: Sprite = null
+let Big_Boss: Sprite = null
+let Green_Car_Enemy: Sprite = null
+let Pink_Car_Enemy: Sprite = null
 let Police_Enemy: Sprite = null
 let Red_Car_Enemy: Sprite = null
 let Fire_Projectile: Sprite = null
@@ -275,9 +282,10 @@ game.onUpdateInterval(2000, function () {
         . f f f f f f f f f f f f f f . 
         . . f f f . . . . f f f . . . . 
         `, SpriteKind.Enemy)
+    Police_Enemy.follow(mySprite)
     Police_Enemy.setPosition(1, 105)
-    Police_Enemy.setVelocity(75, 0)
-    Enemy_Car_2 = sprites.create(img`
+    Police_Enemy.setVelocity(60, 0)
+    Pink_Car_Enemy = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . 3 3 3 3 3 3 3 3 . . . . 
         . . . 3 d 3 3 3 3 3 3 c 3 . . . 
@@ -295,6 +303,54 @@ game.onUpdateInterval(2000, function () {
         . . . f f f . . . . f f f f . . 
         . . . . . . . . . . . . . . . . 
         `, SpriteKind.Enemy)
-    Enemy_Car_2.setPosition(1, 30)
-    Enemy_Car_2.setVelocity(90, 0)
+    Pink_Car_Enemy.setPosition(1, 30)
+    Pink_Car_Enemy.setVelocity(90, 0)
+    Green_Car_Enemy = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . 6 6 6 6 6 6 6 6 . . . . 
+        . . . 6 9 6 6 6 6 6 6 c 6 . . . 
+        . . 6 c 9 6 6 6 6 6 6 c c 6 . . 
+        . 6 c c 9 9 9 9 9 9 6 c c 9 6 d 
+        . 6 c 6 8 8 8 8 8 8 8 b c 9 6 6 
+        . 6 6 8 b b 8 b b b 8 8 b 9 6 6 
+        . 6 8 b b b 8 b b b b 8 6 6 6 6 
+        . 8 8 6 6 6 8 6 6 6 6 6 8 6 6 6 
+        . 8 8 8 8 8 8 f 8 8 8 f 8 6 d d 
+        . 8 8 8 8 8 8 f 8 8 f 8 8 8 6 d 
+        . 8 8 8 8 8 8 f f f 8 8 8 8 8 8 
+        . 8 f f f f 8 8 8 8 f f f 8 8 8 
+        . . f f f f f 8 8 f f f f f 8 . 
+        . . . f f f . . . . f f f f . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Enemy)
+    Green_Car_Enemy.setPosition(1, 45)
+    Green_Car_Enemy.setVelocity(115, 0)
+    Big_Boss = sprites.create(img`
+        ........................
+        ........................
+        ...........cc...........
+        ...........cccc.........
+        .......cc...ccccccc.....
+        .......cccccc555555cc...
+        ........ccb5555555555c..
+        .....cc..b555555555555c.
+        .....cccb555555ff155555c
+        .....ccb55555555ff55d55c
+        ......b5555555555555555c
+        ...c..b555d55555bb13bbc.
+        ...cccd55ddddd55bb3335c.
+        ....cbdddddddddd55b335c.
+        ..cccdddddb55bdddd5555c.
+        ..cccdddddb555bbbbcccc..
+        ...ccddddddb5555cbcdc...
+        ccccbdddddddcb55cbcc....
+        cddddddddd55dbccbbc.....
+        cbdddddddd555dbbbcc.....
+        .ccbdddbbdd555bbcdbcc...
+        ...cccbbbbdd55ccdddbc...
+        ......cccbdddbccccccc...
+        ........cdd555dc........
+        `, SpriteKind.Enemy)
+    Big_Boss.setPosition(1, 75)
+    Big_Boss.setVelocity(150, 0)
 })
