@@ -23,8 +23,13 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         `, mySprite, -150, 0)
     music.play(music.melodyPlayable(music.zapped), music.PlaybackMode.UntilDone)
 })
+sprites.onOverlap(SpriteKind.PowerUp, SpriteKind.Player, function (sprite, otherSprite) {
+    ShotgunActive = true
+    sprites.destroyAllSpritesOfKind(SpriteKind.PowerUp)
+    info.changeScoreBy(50)
+})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (Shotgun_Active) {
+    if (ShotgunActive) {
         Fire_Projectile = sprites.createProjectileFromSprite(img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
@@ -103,12 +108,10 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Boss, function (sprite, otherSprite) {
-    sprites.destroy(Fire_Projectile)
-    sprites.destroy(Laser_Projectile)
-    BossHealth = BossHealth - 1
+    BossHealth += -1
     if (BossHealth <= 0) {
         sprites.destroy(otherSprite, effects.fire, 500)
-        info.changeScoreBy(100)
+        info.changeScoreBy(500)
         music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
         music.setVolume(100)
         if (Math.percentChance(20)) {
@@ -116,25 +119,19 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Boss, function (sprite, othe
             ShotgunPowerUp.setPosition(otherSprite.x, otherSprite.y)
         }
     }
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.PowerUp, function (sprite, otherSprite) {
-    ShotgunPowerUp.sayText("+50")
-    info.changeScoreBy(50)
-    sprites.destroy(otherSprite)
-    Shotgun_Active = true
-    sprites.destroyAllSpritesOfKind(SpriteKind.PowerUp)
+    sprites.destroy(Fire_Projectile)
+    sprites.destroy(Laser_Projectile)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
-    Mighty_Taco_Pickup.sayText("+500")
     sprites.destroy(otherSprite, effects.confetti, 500)
-    info.changeScoreBy(500)
+    info.changeScoreBy(1000)
     music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.UntilDone)
     music.setVolume(100)
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    sprites.destroy(otherSprite, effects.fire, 500)
     sprites.destroy(Fire_Projectile)
     sprites.destroy(Laser_Projectile)
-    sprites.destroy(otherSprite, effects.fire, 500)
     info.changeScoreBy(100)
     music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
     music.setVolume(100)
@@ -149,6 +146,12 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.UntilDone)
     music.setVolume(100)
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Boss, function (sprite, otherSprite) {
+    sprites.destroy(otherSprite, effects.fire, 500)
+    info.changeLifeBy(-1)
+    music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.UntilDone)
+    music.setVolume(100)
+})
 let Big_Boss: Sprite = null
 let Green_Car_Enemy: Sprite = null
 let Pink_Car_Enemy: Sprite = null
@@ -158,8 +161,7 @@ let ShotgunPowerUp: Sprite = null
 let BossHealth = 0
 let Fire_Projectile: Sprite = null
 let Laser_Projectile: Sprite = null
-let Shotgun_Active = false
-let Mighty_Taco_Pickup: Sprite = null
+let ShotgunActive = false
 let mySprite: Sprite = null
 info.setScore(0)
 info.setLife(3)
@@ -181,8 +183,8 @@ mySprite = sprites.create(img`
     . 8 8 f b c c f 8 8 f b c c f . 
     . . . . b b f . . . . b b f . . 
     `, SpriteKind.Player)
-mySprite.setStayInScreen(true)
 mySprite.setPosition(125, 60)
+mySprite.setStayInScreen(true)
 scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
     9999999999999999999999999999999999999999999999999999111111111119999999999999999999999999999999999999991111999999999999999999999999999999999999999999111111111111
@@ -307,7 +309,7 @@ scene.setBackgroundImage(img`
     `)
 game.splash("Death Race", "Are you ready to die?")
 controller.moveSprite(mySprite, 60, 60)
-Mighty_Taco_Pickup = sprites.create(img`
+let Mighty_Taco_Pickup = sprites.create(img`
     . . . . . . . e e e e . . . . . 
     . . . . . e e 4 5 5 5 e e . . . 
     . . . . e 4 5 6 2 2 7 6 6 e . . 
@@ -337,7 +339,7 @@ let Coin_Sprite = sprites.create(img`
     . . f f f f . . 
     `, SpriteKind.Food)
 Coin_Sprite.setPosition(30, 85)
-Shotgun_Active = false
+ShotgunActive = false
 game.onUpdateInterval(2000, function () {
     Red_Car_Enemy = sprites.create(img`
         . . . . e e e e e . . . . . . . 
@@ -379,7 +381,7 @@ game.onUpdateInterval(2000, function () {
         `, SpriteKind.Enemy)
     Police_Enemy.follow(mySprite)
     Police_Enemy.setPosition(1, 105)
-    Police_Enemy.setVelocity(60, 0)
+    Police_Enemy.setVelocity(90, 0)
     Pink_Car_Enemy = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . 3 3 3 3 3 3 3 3 . . . . 
@@ -398,9 +400,9 @@ game.onUpdateInterval(2000, function () {
         . . . f f f . . . . f f f f . . 
         . . . . . . . . . . . . . . . . 
         `, SpriteKind.Enemy)
+    Pink_Car_Enemy.setVelocity(1, 0)
     Pink_Car_Enemy.follow(mySprite)
     Pink_Car_Enemy.setPosition(1, 30)
-    Pink_Car_Enemy.setVelocity(90, 0)
     Green_Car_Enemy = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . 6 6 6 6 6 6 6 6 . . . . 
@@ -423,7 +425,7 @@ game.onUpdateInterval(2000, function () {
     Green_Car_Enemy.setVelocity(115, 0)
 })
 game.onUpdateInterval(6000, function () {
-    Shotgun_Active = false
+    ShotgunActive = false
 })
 game.onUpdateInterval(8000, function () {
     Big_Boss = sprites.create(img`
@@ -453,7 +455,6 @@ game.onUpdateInterval(8000, function () {
         ........cdd555dc........
         `, SpriteKind.Boss)
     BossHealth = 6
-    Big_Boss.follow(mySprite)
     Big_Boss.setPosition(1, 75)
-    Big_Boss.setVelocity(100, 0)
+    Big_Boss.setVelocity(150, 0)
 })
